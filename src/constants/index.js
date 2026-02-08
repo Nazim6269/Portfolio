@@ -59,7 +59,7 @@ const projects = [
   },
   {
     id: 4,
-    title: "Nazim Blogs",
+    title: "Personal Blog Website",
     des: "A blog platform with custom drag-and-drop image uploader, real-time markdown previews, and a Glassmorphism interface with seamless theme switching.",
     technologies: ["React", "Tailwind CSS", "Context API"],
     demoLink: "https://nazimblogs.netlify.app/",
