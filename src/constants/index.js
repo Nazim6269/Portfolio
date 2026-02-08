@@ -47,7 +47,7 @@ const projects = [
     des: "A full-stack e-commerce site featuring multi-step checkout, real-time tax calculation, Stripe payment processing, and dynamic multi-criteria filtering.",
     technologies: ["Next.js", "TypeScript", "Tailwind CSS", "MongoDB", "Stripe"],
     demoLink: "https://buyly-bd.netlify.app/",
-    githubLink: "https://github.com/Nazim6269/Project04_e-commerce_nextjs_one",
+    githubLink: "https://github.com/Nazim6269/buyly-bd",
   },
   {
     id: 3,
@@ -55,7 +55,7 @@ const projects = [
     des: "A web app integrating YouTube Data API for playlist management, with localStorage session persistence and dynamic video embedding.",
     technologies: ["React", "YouTube Data API", "LocalStorage"],
     demoLink: "https://playlistinghub.netlify.app/",
-    githubLink: "https://github.com/Nazim6269/Project07_Youtube_Playlist_Manager",
+    githubLink: "https://github.com/Nazim6269/playlistinghub",
   },
   {
     id: 4,
@@ -63,7 +63,7 @@ const projects = [
     des: "A blog platform with custom drag-and-drop image uploader, real-time markdown previews, and a Glassmorphism interface with seamless theme switching.",
     technologies: ["React", "Tailwind CSS", "Context API"],
     demoLink: "https://nazimblogs.netlify.app/",
-    githubLink: "https://github.com/Nazim6269/Project09_Blog_App",
+    githubLink: "https://github.com/Nazim6269/nazimblogs",
   },
   {
     id: 5,
@@ -71,7 +71,7 @@ const projects = [
     des: "A live tracking system using Geolocation API and Leaflet.js with theme-aware maps, reverse geocoding, and real-time weather and seismic data.",
     technologies: ["React", "Tailwind CSS", "Leaflet.js", "OpenWeatherMap API"],
     demoLink: "https://geolocationtrack.netlify.app/",
-    githubLink: "https://github.com/Nazim6269/Project05_Location_Tracker",
+    githubLink: "https://github.com/Nazim6269/realtime-geolocation",
   },
 ];
 
