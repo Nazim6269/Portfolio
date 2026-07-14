@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import TitleHeader from "../components/TitleHeader";
 import { supabase } from "../supabaseClient";
-import { expCards as fallbackExp } from "../constants";
 
 const Experience = () => {
-  const [expCards, setExpCards] = useState(fallbackExp);
+  const [expCards, setExpCards] = useState([]);
 
   useEffect(() => {
     const fetchExperience = async () => {

@@ -3,10 +3,9 @@ import { Link } from "react-router-dom";
 import GlowCard from "../components/GlowCard";
 import TitleHeader from "../components/TitleHeader";
 import { supabase } from "../supabaseClient";
-import { projects as fallbackProjects } from "../constants";
 
 const Projects = () => {
-  const [projects, setProjects] = useState(fallbackProjects);
+  const [projects, setProjects] = useState([]);
 
   useEffect(() => {
     const fetchProjects = async () => {

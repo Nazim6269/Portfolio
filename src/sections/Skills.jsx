@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import TitleHeader from "../components/TitleHeader";
 import { supabase } from "../supabaseClient";
-import { groupedSkills as fallbackSkills } from "../constants";
 
 export default function Skills() {
-  const [skillGroups, setSkillGroups] = useState(fallbackSkills);
+  const [skillGroups, setSkillGroups] = useState([]);
 
   useEffect(() => {
     const fetchSkills = async () => {
