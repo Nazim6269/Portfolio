@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { supabase } from "./supabaseClient";
+import { SiteConfigProvider, useSiteConfig } from "./context/SiteConfigContext";
 import Navbar from "./components/NavBar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
@@ -11,12 +12,21 @@ import ProjectsManager from "./dashboard/ProjectsManager";
 import SkillsManager from "./dashboard/SkillsManager";
 import ExperienceManager from "./dashboard/ExperienceManager";
 import Messages from "./dashboard/Messages";
+import SiteSettings from "./dashboard/SiteSettings";
 import Contact from "./sections/Contact";
 import Footer from "./sections/Footer";
 import Hero from "./sections/Hero";
 import Projects from "./sections/Projects";
 import Skills from "./sections/Skills";
 import Experience from "./sections/Experience";
+
+const MetaTitleSetter = () => {
+  const { config } = useSiteConfig();
+  useEffect(() => {
+    document.title = config?.meta_title || "Portfolio";
+  }, [config]);
+  return null;
+};
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -47,40 +57,44 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route
-          path="/login"
-          element={<Login onLogin={setUser} />}
-        />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute user={user}>
-              <DashboardLayout user={user} />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<Overview />} />
-          <Route path="projects" element={<ProjectsManager />} />
-          <Route path="skills" element={<SkillsManager />} />
-          <Route path="experience" element={<ExperienceManager />} />
-          <Route path="messages" element={<Messages />} />
-        </Route>
-        <Route
-          path="/"
-          element={
-            <>
-              <Navbar />
-              <Hero />
-              <Projects />
-              <Skills />
-              <Experience />
-              <Contact />
-              <Footer />
-            </>
-          }
-        />
-      </Routes>
+      <SiteConfigProvider>
+        <Routes>
+          <Route
+            path="/login"
+            element={<Login onLogin={setUser} />}
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute user={user}>
+                <DashboardLayout user={user} />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Overview />} />
+            <Route path="projects" element={<ProjectsManager />} />
+            <Route path="skills" element={<SkillsManager />} />
+            <Route path="experience" element={<ExperienceManager />} />
+            <Route path="messages" element={<Messages />} />
+            <Route path="site-settings" element={<SiteSettings />} />
+          </Route>
+          <Route
+            path="/"
+            element={
+              <>
+                <MetaTitleSetter />
+                <Navbar />
+                <Hero />
+                <Projects />
+                <Skills />
+                <Experience />
+                <Contact />
+                <Footer />
+              </>
+            }
+          />
+        </Routes>
+      </SiteConfigProvider>
     </BrowserRouter>
   );
 };

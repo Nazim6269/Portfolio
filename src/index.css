@@ -107,7 +107,7 @@ section {
   }
 
   .card-border {
-    @apply border border-white/[0.06] bg-white/[0.02];
+    @apply border border-white/[0.06] bg-zinc-800/20;
   }
 
   form {

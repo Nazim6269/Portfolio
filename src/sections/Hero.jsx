@@ -1,26 +1,27 @@
 import Button from "../components/Button";
+import { useSiteConfig } from "../context/SiteConfigContext";
 
 const Hero = () => {
+  const { config } = useSiteConfig();
+
   return (
     <section id="hero" className="relative overflow-hidden max-w-7xl mx-auto">
       <div className="hero-layout">
         <header className="flex flex-col justify-center items-center text-center md:w-full w-screen px-5">
           <div className="flex flex-col items-center gap-7">
             <span className="inline-block px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-blue-50 font-medium border border-white/[0.06] bg-white/[0.02] rounded-full">
-              Available for opportunities
+              {config?.hero_badge || "Available for opportunities"}
             </span>
 
             <div className="hero-text">
-              <h1 className="text-gradient">Nazim Uddin</h1>
+              <h1 className="text-gradient">{config?.hero_name || "Nazim Uddin"}</h1>
               <p className="md:text-xl text-base font-normal text-gray-500 mt-3 tracking-normal">
-                Frontend Engineer
+                {config?.hero_title || "Frontend Engineer"}
               </p>
             </div>
 
             <p className="text-gray-400 md:text-lg text-sm max-w-xl relative z-10 pointer-events-none leading-relaxed">
-              Specializing in React, Next.js, and Node.js — I build performant
-              web applications with clean architecture and thoughtful user
-              experiences.
+              {config?.hero_bio || "Specializing in React, Next.js, and Node.js — I build performant web applications with clean architecture and thoughtful user experiences."}
             </p>
 
             <div className="flex items-center gap-4 mt-2">

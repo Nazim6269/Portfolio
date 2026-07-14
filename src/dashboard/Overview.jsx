@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabaseClient";
+import {
+  StatCard,
+  FolderIcon,
+  CodeIcon,
+  BriefcaseIcon,
+  ChatIcon,
+} from "../components/StatCard";
 
 const Overview = () => {
   const [stats, setStats] = useState({
@@ -40,29 +47,29 @@ const Overview = () => {
   }, []);
 
   const cards = [
-    { label: "Projects", value: stats.projects, color: "border-blue-500" },
-    { label: "Skill Groups", value: stats.skills, color: "border-emerald-500" },
-    { label: "Experiences", value: stats.experience, color: "border-violet-500" },
-    { label: "Messages", value: stats.messages, color: "border-amber-500" },
+    { label: "Projects", value: stats.projects, icon: FolderIcon, scheme: "blue" },
+    { label: "Skill Groups", value: stats.skills, icon: CodeIcon, scheme: "emerald" },
+    { label: "Experiences", value: stats.experience, icon: BriefcaseIcon, scheme: "violet" },
+    { label: "Messages", value: stats.messages, icon: ChatIcon, scheme: "amber" },
   ];
 
   return (
-    <div>
+    <div className="bg-zinc-800/30 rounded-2xl p-6 border border-white/[0.06]">
       <h2 className="text-2xl font-bold text-white mb-6">Dashboard Overview</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {cards.map((card) => (
-          <div
+          <StatCard
             key={card.label}
-            className={`card-border rounded-xl p-5 border-l-4 ${card.color}`}
-          >
-            <p className="text-gray-400 text-sm">{card.label}</p>
-            <p className="text-3xl font-bold text-white mt-1">{card.value}</p>
-          </div>
+            label={card.label}
+            value={card.value}
+            icon={card.icon}
+            scheme={card.scheme}
+          />
         ))}
       </div>
 
-      <div className="card-border rounded-xl p-6">
+      <div className="bg-zinc-800/20 rounded-xl p-6 border border-white/[0.06]">
         <h3 className="text-lg font-semibold text-white mb-4">
           Recent Messages
         </h3>

@@ -25,7 +25,7 @@ const Messages = () => {
   };
 
   return (
-    <div>
+    <div className="bg-zinc-800/30 rounded-2xl p-6 border border-white/[0.06]">
       <h2 className="text-2xl font-bold text-white mb-6">Messages</h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -34,10 +34,10 @@ const Messages = () => {
             <button
               key={msg.id}
               onClick={() => setSelected(msg)}
-              className={`w-full text-left card-border rounded-xl p-4 transition-all duration-200 ${
+              className={`w-full text-left bg-zinc-800/20 rounded-xl p-4 border border-white/[0.06] transition-all duration-200 ${
                 selected?.id === msg.id
-                  ? "border-white/20 bg-white/[0.04]"
-                  : "hover:bg-white/[0.02]"
+                  ? "border-white/20 bg-zinc-800/40"
+                  : "hover:bg-zinc-800/40"
               }`}
             >
               <p className="text-sm font-medium text-white truncate">
@@ -56,7 +56,7 @@ const Messages = () => {
 
         <div className="lg:col-span-2">
           {selected ? (
-            <div className="card-border rounded-xl p-6">
+            <div className="bg-zinc-800/20 rounded-xl p-6 border border-white/[0.06]">
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <h3 className="text-lg font-semibold text-white">
@@ -81,7 +81,7 @@ const Messages = () => {
               </div>
             </div>
           ) : (
-            <div className="card-border rounded-xl p-6 flex items-center justify-center h-40">
+            <div className="bg-zinc-800/20 rounded-xl p-6 border border-white/[0.06] flex items-center justify-center h-40">
               <p className="text-gray-500 text-sm">
                 Select a message to view
               </p>

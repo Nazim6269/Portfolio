@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 
 import { navLinks } from "../constants";
+import { useSiteConfig } from "../context/SiteConfigContext";
 
 const NavBar = () => {
+  const { config } = useSiteConfig();
   // track if the user has scrolled down the page
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +32,7 @@ const NavBar = () => {
     <header className={`navbar ${scrolled ? "scrolled" : "not-scrolled"}`}>
       <div className="inner">
         <p className="text-xl md:text-2xl font-bold text-white tracking-tight">
-          Nazim.
+          {config?.site_name || "Nazim."}
         </p>
 
         <nav className="desktop">

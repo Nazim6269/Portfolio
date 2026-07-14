@@ -1,12 +1,15 @@
 import { Link } from "react-router-dom";
 import { socialImgs } from "../constants";
+import { useSiteConfig } from "../context/SiteConfigContext";
 
 const Footer = () => {
+  const { config } = useSiteConfig();
+
   return (
     <footer className="footer">
       <div className="footer-container">
         <div className="flex flex-col justify-center">
-          <p className="font-medium text-gray-400">Nazim Uddin</p>
+          <p className="font-medium text-gray-400">{config?.footer_name || "Nazim Uddin"}</p>
         </div>
         <div className="socials">
           {socialImgs.map((socialImg, index) => (

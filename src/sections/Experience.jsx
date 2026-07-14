@@ -42,7 +42,7 @@ const Experience = () => {
           {expCards.map((card) => (
             <div
               key={card.title}
-              className="card-border rounded-xl p-6 md:p-8 hover:bg-white/[0.02] transition-all duration-300"
+              className="card-border rounded-xl p-6 md:p-8 hover:bg-zinc-800/40 transition-all duration-300"
             >
               <div className="flex flex-col md:flex-row md:items-start gap-5">
                 {card.logoPath && (

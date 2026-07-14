@@ -8,6 +8,7 @@ const navItems = [
   { path: "/dashboard/skills", label: "Skills", end: false },
   { path: "/dashboard/experience", label: "Experience", end: false },
   { path: "/dashboard/messages", label: "Messages", end: false },
+  { path: "/dashboard/site-settings", label: "Site Settings", end: false },
 ];
 
 const DashboardLayout = ({ user }) => {

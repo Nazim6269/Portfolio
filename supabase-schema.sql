@@ -87,7 +87,28 @@ CREATE TRIGGER update_skills_updated_at
 CREATE TRIGGER update_experience_updated_at
   BEFORE UPDATE ON experience FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
--- 9. Insert sample data (optional)
+-- 9. Site config table (single-row config for site name & hero content)
+CREATE TABLE site_config (
+  id int4 PRIMARY KEY DEFAULT 1,
+  site_name text NOT NULL DEFAULT 'Nazim.',
+  hero_name text NOT NULL DEFAULT 'Nazim Uddin',
+  hero_title text NOT NULL DEFAULT 'Frontend Engineer',
+  hero_bio text NOT NULL DEFAULT 'Specializing in React, Next.js, and Node.js — I build performant web applications with clean architecture and thoughtful user experiences.',
+  hero_badge text NOT NULL DEFAULT 'Available for opportunities',
+  footer_name text NOT NULL DEFAULT 'Nazim Uddin',
+  meta_title text NOT NULL DEFAULT 'Nazim''s — Portfolio',
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
+);
+
+ALTER TABLE site_config ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read site_config" ON site_config FOR SELECT USING (true);
+CREATE POLICY "Allow auth update site_config" ON site_config FOR UPDATE USING (auth.role() = 'authenticated');
+
+INSERT INTO site_config (id) VALUES (1)
+ON CONFLICT (id) DO NOTHING;
+
+-- 10. Insert sample data (optional)
 INSERT INTO projects (title, description, technologies, demo_link, github_link) VALUES
   ('DineHub', 'A full-stack food ordering platform with secure authentication, Stripe payments, order lifecycle tracking, and a comprehensive admin dashboard.', ARRAY['React', 'Node.js', 'Express', 'MongoDB', 'Stripe', 'JWT'], 'https://dinhub.netlify.app/', 'https://github.com/Nazim6269/DineHub_MERN'),
   ('E-commerce Website', 'A full-stack e-commerce site featuring multi-step checkout, real-time tax calculation, Stripe payment processing, and dynamic multi-criteria filtering.', ARRAY['Next.js', 'TypeScript', 'Tailwind CSS', 'MongoDB', 'Stripe'], 'https://buyly-bd.netlify.app/', 'https://github.com/Nazim6269/buyly-bd'),

@@ -32,7 +32,7 @@ export default function Skills() {
         />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-12">
           {skillGroups.map((group, index) => (
-            <div key={index} className="card-border rounded-xl p-6 hover:bg-white/[0.02] transition-all duration-300">
+            <div key={index} className="card-border rounded-xl p-6 hover:bg-zinc-800/40 transition-all duration-300">
               <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-blue-50 mb-5">
                 {group.category}
               </h3>

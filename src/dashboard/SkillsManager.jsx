@@ -71,7 +71,7 @@ const SkillsManager = () => {
   };
 
   return (
-    <div>
+    <div className="bg-zinc-800/30 rounded-2xl p-6 border border-white/[0.06]">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-white">Skills</h2>
         <button
@@ -134,7 +134,7 @@ const SkillsManager = () => {
         {skillGroups.map((group) => (
           <div
             key={group.id}
-            className="card-border rounded-xl p-5 flex items-start justify-between gap-4"
+            className="bg-zinc-800/20 rounded-xl p-5 border border-white/[0.06] flex items-start justify-between gap-4"
           >
             <div className="flex-1 min-w-0">
               <h3 className="text-white font-semibold text-sm uppercase tracking-wider">
