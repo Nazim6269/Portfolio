@@ -1,9 +1,35 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import GlowCard from "../components/GlowCard";
 import TitleHeader from "../components/TitleHeader";
-import { projects } from "../constants";
+import { supabase } from "../supabaseClient";
+import { projects as fallbackProjects } from "../constants";
 
 const Projects = () => {
+  const [projects, setProjects] = useState(fallbackProjects);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const { data } = await supabase
+        .from("projects")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (data && data.length > 0) {
+        setProjects(
+          data.map((p) => ({
+            id: p.id,
+            title: p.title,
+            des: p.description,
+            technologies: p.technologies,
+            demoLink: p.demo_link,
+            githubLink: p.github_link,
+          }))
+        );
+      }
+    };
+    fetchProjects();
+  }, []);
+
   return (
     <section id="projects" className="section-padding max-w-7xl mx-auto">
       <div className="w-full h-full">

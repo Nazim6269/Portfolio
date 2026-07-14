@@ -1,7 +1,34 @@
+import { useEffect, useState } from "react";
 import TitleHeader from "../components/TitleHeader";
-import { expCards } from "../constants";
+import { supabase } from "../supabaseClient";
+import { expCards as fallbackExp } from "../constants";
 
 const Experience = () => {
+  const [expCards, setExpCards] = useState(fallbackExp);
+
+  useEffect(() => {
+    const fetchExperience = async () => {
+      const { data } = await supabase
+        .from("experience")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (data && data.length > 0) {
+        setExpCards(
+          data.map((e) => ({
+            title: e.company
+              ? `${e.title} — ${e.company}`
+              : e.title,
+            date: e.date,
+            imgPath: e.img_path || "",
+            logoPath: e.logo_path || "",
+            responsibilities: e.responsibilities,
+          }))
+        );
+      }
+    };
+    fetchExperience();
+  }, []);
+
   return (
     <section
       id="experience"
@@ -19,11 +46,13 @@ const Experience = () => {
               className="card-border rounded-xl p-6 md:p-8 hover:bg-white/[0.02] transition-all duration-300"
             >
               <div className="flex flex-col md:flex-row md:items-start gap-5">
-                <img
-                  src={card.logoPath}
-                  alt="logo"
-                  className="w-14 h-14 rounded-lg object-cover border border-white/[0.06] flex-shrink-0"
-                />
+                {card.logoPath && (
+                  <img
+                    src={card.logoPath}
+                    alt="logo"
+                    className="w-14 h-14 rounded-lg object-cover border border-white/[0.06] flex-shrink-0"
+                  />
+                )}
                 <div className="flex-1">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <h3 className="font-semibold text-xl text-white">

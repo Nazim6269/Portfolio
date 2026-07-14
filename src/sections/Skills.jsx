@@ -1,7 +1,29 @@
+import { useEffect, useState } from "react";
 import TitleHeader from "../components/TitleHeader";
-import { groupedSkills } from "../constants";
+import { supabase } from "../supabaseClient";
+import { groupedSkills as fallbackSkills } from "../constants";
 
 export default function Skills() {
+  const [skillGroups, setSkillGroups] = useState(fallbackSkills);
+
+  useEffect(() => {
+    const fetchSkills = async () => {
+      const { data } = await supabase
+        .from("skills")
+        .select("*")
+        .order("created_at", { ascending: true });
+      if (data && data.length > 0) {
+        setSkillGroups(
+          data.map((s) => ({
+            category: s.category,
+            skills: s.skills,
+          }))
+        );
+      }
+    };
+    fetchSkills();
+  }, []);
+
   return (
     <section id="skills" className="section-padding max-w-7xl mx-auto">
       <div className="w-full h-full">
@@ -10,7 +32,7 @@ export default function Skills() {
           sub="Stack & Tools"
         />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-12">
-          {groupedSkills.map((group, index) => (
+          {skillGroups.map((group, index) => (
             <div key={index} className="card-border rounded-xl p-6 hover:bg-white/[0.02] transition-all duration-300">
               <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-blue-50 mb-5">
                 {group.category}
