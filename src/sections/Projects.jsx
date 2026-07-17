@@ -65,15 +65,21 @@ const Projects = () => {
                   Details
                 </Link>
 
-                <Link
-                  to={project.demoLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="text-blue-50 hover:text-white transition-colors duration-200"
-                >
-                  Live Demo
-                </Link>
+                {project.demoLink ? (
+                  <Link
+                    to={project.demoLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-blue-50 hover:text-white transition-colors duration-200"
+                  >
+                    Live Demo
+                  </Link>
+                ) : (
+                  <span className="text-gray-500 cursor-not-allowed">
+                    Live Demo
+                  </span>
+                )}
 
                 <Link
                   to={project.githubLink}

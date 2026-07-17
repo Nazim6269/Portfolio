@@ -21,6 +21,8 @@ const ProjectDetail = () => {
           id: data.id,
           title: data.title,
           des: data.description,
+          keyFeatures: data.key_features,
+          purpose: data.purpose,
           technologies: data.technologies,
           demoLink: data.demo_link,
           githubLink: data.github_link,
@@ -68,9 +70,36 @@ const ProjectDetail = () => {
             {project.title}
           </h1>
 
-          <p className="text-gray-400 mt-6 leading-relaxed text-base">
-            {project.des}
-          </p>
+          <section className="mt-10">
+            <h2 className="text-xl font-semibold text-white mb-3">Description</h2>
+            <div className="text-gray-400 leading-relaxed text-base space-y-4">
+              {project.des.split("\n").filter(Boolean).map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
+            </div>
+          </section>
+
+          {project.keyFeatures && (
+            <section className="mt-10">
+              <h2 className="text-xl font-semibold text-white mb-3">Key Features</h2>
+              <div className="text-gray-400 leading-relaxed text-base space-y-4">
+                {project.keyFeatures.split("\n").filter(Boolean).map((para, i) => (
+                  <p key={i}>{para}</p>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {project.purpose && (
+            <section className="mt-10">
+              <h2 className="text-xl font-semibold text-white mb-3">Purpose</h2>
+              <div className="text-gray-400 leading-relaxed text-base space-y-4">
+                {project.purpose.split("\n").filter(Boolean).map((para, i) => (
+                  <p key={i}>{para}</p>
+                ))}
+              </div>
+            </section>
+          )}
 
           <div className="flex flex-wrap gap-2 mt-8">
             {project?.technologies?.map((tech, i) => (
@@ -84,14 +113,20 @@ const ProjectDetail = () => {
           </div>
 
           <div className="flex gap-4 mt-10 pt-6 border-t border-white/[0.06]">
-            <a
-              href={project.demoLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex px-6 py-2.5 rounded-lg bg-white text-black text-sm font-medium hover:bg-gray-200 transition-all duration-200"
-            >
-              Live Demo
-            </a>
+            {project.demoLink ? (
+              <a
+                href={project.demoLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex px-6 py-2.5 rounded-lg bg-white text-black text-sm font-medium hover:bg-gray-200 transition-all duration-200"
+              >
+                Live Demo
+              </a>
+            ) : (
+              <span className="inline-flex px-6 py-2.5 rounded-lg bg-white/5 text-gray-500 text-sm font-medium cursor-not-allowed">
+                Live Demo
+              </span>
+            )}
             <a
               href={project.githubLink}
               target="_blank"

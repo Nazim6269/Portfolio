@@ -23,6 +23,8 @@ const emptyForm = {
   technologies: "",
   demo_link: "",
   github_link: "",
+  key_features: "",
+  purpose: "",
 };
 
 const SortableItem = ({ project, openEdit, handleDelete }) => {
@@ -169,6 +171,8 @@ const ProjectsManager = () => {
       title: project.title,
       description: project.description,
       technologies: project.technologies?.join(", ") || "",
+      key_features: project.key_features || "",
+      purpose: project.purpose || "",
       demo_link: project.demo_link || "",
       github_link: project.github_link || "",
     });
@@ -254,6 +258,24 @@ const ProjectsManager = () => {
                   onChange={handleChange}
                   placeholder="React, Node.js, MongoDB"
                   required
+                />
+              </div>
+              <div>
+                <label>Key Features</label>
+                <textarea
+                  name="key_features"
+                  value={form.key_features}
+                  onChange={handleChange}
+                  rows={3}
+                />
+              </div>
+              <div>
+                <label>Purpose</label>
+                <textarea
+                  name="purpose"
+                  value={form.purpose}
+                  onChange={handleChange}
+                  rows={3}
                 />
               </div>
               <div>

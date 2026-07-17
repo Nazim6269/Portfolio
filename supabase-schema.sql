@@ -7,6 +7,8 @@ CREATE TABLE projects (
   technologies TEXT[] NOT NULL DEFAULT '{}',
   demo_link TEXT,
   github_link TEXT,
+  key_features TEXT,
+  purpose TEXT,
   position INT NOT NULL DEFAULT 0,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
