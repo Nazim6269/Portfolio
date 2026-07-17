@@ -1,4 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  KeyboardSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { supabase } from "../supabaseClient";
 
 const emptyForm = {
@@ -9,6 +25,79 @@ const emptyForm = {
   github_link: "",
 };
 
+const SortableItem = ({ project, openEdit, handleDelete }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: project.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.4 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="bg-zinc-800/20 rounded-xl p-5 border border-white/[0.06] flex items-start justify-between gap-4"
+    >
+      <div className="flex items-start gap-3 flex-1 min-w-0">
+        <button
+          {...attributes}
+          {...listeners}
+          className="mt-1 cursor-grab active:cursor-grabbing text-gray-400 hover:text-white transition-colors flex-shrink-0 p-1 -ml-1"
+          aria-label="Drag to reorder"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="9" cy="5" r="2" fill="currentColor" stroke="none" />
+            <circle cx="15" cy="5" r="2" fill="currentColor" stroke="none" />
+            <circle cx="9" cy="12" r="2" fill="currentColor" stroke="none" />
+            <circle cx="15" cy="12" r="2" fill="currentColor" stroke="none" />
+            <circle cx="9" cy="19" r="2" fill="currentColor" stroke="none" />
+            <circle cx="15" cy="19" r="2" fill="currentColor" stroke="none" />
+          </svg>
+        </button>
+        <div className="min-w-0">
+          <h3 className="text-white font-semibold">{project.title}</h3>
+          <p className="text-gray-400 text-sm mt-1 line-clamp-2">
+            {project.description}
+          </p>
+          <div className="flex flex-wrap gap-1.5 mt-3">
+            {project.technologies?.map((tech, i) => (
+              <span
+                key={i}
+                className="px-2 py-0.5 text-xs rounded-md bg-white/[0.03] text-gray-400 border border-white/[0.06]"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="flex gap-2 flex-shrink-0">
+        <button
+          onClick={() => openEdit(project)}
+          className="px-3 py-1.5 rounded-md text-xs font-medium bg-white/[0.05] text-gray-300 hover:text-white hover:bg-white/[0.08] transition-all duration-200"
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => handleDelete(project.id)}
+          className="px-3 py-1.5 rounded-md text-xs font-medium bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all duration-200"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const ProjectsManager = () => {
   const [projects, setProjects] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -16,17 +105,55 @@ const ProjectsManager = () => {
   const [form, setForm] = useState(emptyForm);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    fetchProjects();
-  }, []);
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 5 },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
-  const fetchProjects = async () => {
+  const fetchProjects = useCallback(async () => {
     const { data } = await supabase
       .from("projects")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("position", { ascending: true });
     if (data) setProjects(data);
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchProjects();
+  }, [fetchProjects]);
+
+  const persistOrder = useCallback(async (ordered) => {
+    const updates = ordered.map((p, i) => ({
+      id: p.id,
+      position: i,
+    }));
+    const { error } = await supabase.from("projects").upsert(updates, {
+      onConflict: "id",
+    });
+    if (error) console.error("Failed to persist order:", error);
+  }, []);
+
+  const handleDragEnd = useCallback(
+    (event) => {
+      const { active, over } = event;
+      if (!over || active.id === over.id) return;
+
+      setProjects((prev) => {
+        const oldIndex = prev.findIndex((p) => p.id === active.id);
+        const newIndex = prev.findIndex((p) => p.id === over.id);
+        if (oldIndex === -1 || newIndex === -1) return prev;
+
+        const reordered = arrayMove(prev, oldIndex, newIndex);
+        persistOrder(reordered);
+        return reordered;
+      });
+    },
+    [persistOrder]
+  );
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -71,7 +198,10 @@ const ProjectsManager = () => {
     if (editing) {
       await supabase.from("projects").update(payload).eq("id", editing);
     } else {
-      await supabase.from("projects").insert([payload]);
+      const nextPosition = projects.length;
+      await supabase
+        .from("projects")
+        .insert([{ ...payload, position: nextPosition }]);
     }
 
     setShowForm(false);
@@ -164,48 +294,30 @@ const ProjectsManager = () => {
         </div>
       )}
 
-      <div className="grid gap-4">
-        {projects.map((project) => (
-          <div
-            key={project.id}
-            className="bg-zinc-800/20 rounded-xl p-5 border border-white/[0.06] flex items-start justify-between gap-4"
-          >
-            <div className="flex-1 min-w-0">
-              <h3 className="text-white font-semibold">{project.title}</h3>
-              <p className="text-gray-400 text-sm mt-1 line-clamp-2">
-                {project.description}
-              </p>
-              <div className="flex flex-wrap gap-1.5 mt-3">
-                {project.technologies?.map((tech, i) => (
-                  <span
-                    key={i}
-                    className="px-2 py-0.5 text-xs rounded-md bg-white/[0.03] text-gray-400 border border-white/[0.06]"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className="flex gap-2 flex-shrink-0">
-              <button
-                onClick={() => openEdit(project)}
-                className="px-3 py-1.5 rounded-md text-xs font-medium bg-white/[0.05] text-gray-300 hover:text-white hover:bg-white/[0.08] transition-all duration-200"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => handleDelete(project.id)}
-                className="px-3 py-1.5 rounded-md text-xs font-medium bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all duration-200"
-              >
-                Delete
-              </button>
-            </div>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={projects.map((p) => p.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          <div className="grid gap-4">
+            {projects.map((project) => (
+              <SortableItem
+                key={project.id}
+                project={project}
+                openEdit={openEdit}
+                handleDelete={handleDelete}
+              />
+            ))}
+            {projects.length === 0 && (
+              <p className="text-gray-500 text-sm">No projects yet.</p>
+            )}
           </div>
-        ))}
-        {projects.length === 0 && (
-          <p className="text-gray-500 text-sm">No projects yet.</p>
-        )}
-      </div>
+        </SortableContext>
+      </DndContext>
     </div>
   );
 };

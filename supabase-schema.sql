@@ -7,6 +7,7 @@ CREATE TABLE projects (
   technologies TEXT[] NOT NULL DEFAULT '{}',
   demo_link TEXT,
   github_link TEXT,
+  position INT NOT NULL DEFAULT 0,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -109,12 +110,12 @@ INSERT INTO site_config (id) VALUES (1)
 ON CONFLICT (id) DO NOTHING;
 
 -- 10. Insert sample data (optional)
-INSERT INTO projects (title, description, technologies, demo_link, github_link) VALUES
-  ('DineHub', 'A full-stack food ordering platform with secure authentication, Stripe payments, order lifecycle tracking, and a comprehensive admin dashboard.', ARRAY['React', 'Node.js', 'Express', 'MongoDB', 'Stripe', 'JWT'], 'https://dinhub.netlify.app/', 'https://github.com/Nazim6269/DineHub_MERN'),
-  ('E-commerce Website', 'A full-stack e-commerce site featuring multi-step checkout, real-time tax calculation, Stripe payment processing, and dynamic multi-criteria filtering.', ARRAY['Next.js', 'TypeScript', 'Tailwind CSS', 'MongoDB', 'Stripe'], 'https://buyly-bd.netlify.app/', 'https://github.com/Nazim6269/buyly-bd'),
-  ('Playlist Manager', 'A web app integrating YouTube Data API for playlist management, with localStorage session persistence and dynamic video embedding.', ARRAY['React', 'YouTube Data API', 'LocalStorage'], 'https://playlistinghub.netlify.app/', 'https://github.com/Nazim6269/playlistinghub'),
-  ('Personal Blog Website', 'A blog platform with custom drag-and-drop image uploader, real-time markdown previews, and a Glassmorphism interface with seamless theme switching.', ARRAY['React', 'Tailwind CSS', 'Context API'], 'https://nazimblogs.netlify.app/', 'https://github.com/Nazim6269/nazimblogs'),
-  ('Real-Time Geolocation', 'A live tracking system using Geolocation API and Leaflet.js with theme-aware maps, reverse geocoding, and real-time weather and seismic data.', ARRAY['React', 'Tailwind CSS', 'Leaflet.js', 'OpenWeatherMap API'], 'https://geolocationtrack.netlify.app/', 'https://github.com/Nazim6269/realtime-geolocation');
+INSERT INTO projects (title, description, technologies, demo_link, github_link, position) VALUES
+  ('DineHub', 'A full-stack food ordering platform with secure authentication, Stripe payments, order lifecycle tracking, and a comprehensive admin dashboard.', ARRAY['React', 'Node.js', 'Express', 'MongoDB', 'Stripe', 'JWT'], 'https://dinhub.netlify.app/', 'https://github.com/Nazim6269/DineHub_MERN', 0),
+  ('E-commerce Website', 'A full-stack e-commerce site featuring multi-step checkout, real-time tax calculation, Stripe payment processing, and dynamic multi-criteria filtering.', ARRAY['Next.js', 'TypeScript', 'Tailwind CSS', 'MongoDB', 'Stripe'], 'https://buyly-bd.netlify.app/', 'https://github.com/Nazim6269/buyly-bd', 1),
+  ('Playlist Manager', 'A web app integrating YouTube Data API for playlist management, with localStorage session persistence and dynamic video embedding.', ARRAY['React', 'YouTube Data API', 'LocalStorage'], 'https://playlistinghub.netlify.app/', 'https://github.com/Nazim6269/playlistinghub', 2),
+  ('Personal Blog Website', 'A blog platform with custom drag-and-drop image uploader, real-time markdown previews, and a Glassmorphism interface with seamless theme switching.', ARRAY['React', 'Tailwind CSS', 'Context API'], 'https://nazimblogs.netlify.app/', 'https://github.com/Nazim6269/nazimblogs', 3),
+  ('Real-Time Geolocation', 'A live tracking system using Geolocation API and Leaflet.js with theme-aware maps, reverse geocoding, and real-time weather and seismic data.', ARRAY['React', 'Tailwind CSS', 'Leaflet.js', 'OpenWeatherMap API'], 'https://geolocationtrack.netlify.app/', 'https://github.com/Nazim6269/realtime-geolocation', 4);
 
 INSERT INTO skills (category, skills) VALUES
   ('Programming Languages', ARRAY['JavaScript', 'TypeScript', 'C', 'C++']),

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import GlowCard from "../components/GlowCard";
-import TitleHeader from "../components/TitleHeader";
 import { supabase } from "../supabaseClient";
 
-const Projects = () => {
+const AllProjects = () => {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
@@ -29,19 +28,21 @@ const Projects = () => {
     fetchProjects();
   }, []);
 
-  const visible = projects.slice(0, 6);
-  const hasMore = projects.length > 6;
-
   return (
-    <section id="projects" className="section-padding max-w-7xl mx-auto">
+    <section className="section-padding max-w-7xl mx-auto min-h-screen">
       <div className="w-full h-full">
-        <TitleHeader
-          title="Selected Projects"
-          sub="Recent Work"
-        />
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl md:text-4xl font-bold text-white">All Projects</h1>
+          <Link
+            to="/"
+            className="text-gray-400 hover:text-white transition-colors text-sm"
+          >
+            &larr; Back to Home
+          </Link>
+        </div>
 
         <div className="lg:columns-3 md:columns-2 columns-1 mt-12">
-          {visible.map((project, index) => (
+          {projects.map((project, index) => (
             <GlowCard card={project} key={project.id} index={index}>
               <h3 className="font-semibold text-base text-white">{project.title}</h3>
               <p className="text-gray-400 text-sm mt-2 leading-relaxed">{project.des}</p>
@@ -64,7 +65,6 @@ const Projects = () => {
                 >
                   Details
                 </Link>
-
                 <Link
                   to={project.demoLink}
                   target="_blank"
@@ -74,7 +74,6 @@ const Projects = () => {
                 >
                   Live Demo
                 </Link>
-
                 <Link
                   to={project.githubLink}
                   target="_blank"
@@ -89,19 +88,12 @@ const Projects = () => {
           ))}
         </div>
 
-        {hasMore && (
-          <div className="flex justify-center mt-10">
-            <Link
-              to="/projects"
-              className="inline-flex px-6 py-3 rounded-lg border border-white/[0.12] text-gray-300 text-sm font-medium hover:bg-white/[0.04] hover:text-white transition-all duration-200"
-            >
-              View All Projects &rarr;
-            </Link>
-          </div>
+        {projects.length === 0 && (
+          <p className="text-gray-500 text-sm text-center mt-20">No projects yet.</p>
         )}
       </div>
     </section>
   );
 };
 
-export default Projects;
+export default AllProjects;

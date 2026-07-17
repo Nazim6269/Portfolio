@@ -18,6 +18,7 @@ import Footer from "./sections/Footer";
 import Hero from "./sections/Hero";
 import Projects from "./sections/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
+import AllProjects from "./pages/AllProjects";
 import Skills from "./sections/Skills";
 import Experience from "./sections/Experience";
 
@@ -79,6 +80,16 @@ const App = () => {
             <Route path="messages" element={<Messages />} />
             <Route path="site-settings" element={<SiteSettings />} />
           </Route>
+          <Route
+            path="/projects"
+            element={
+              <>
+                <MetaTitleSetter />
+                <Navbar />
+                <AllProjects />
+              </>
+            }
+          />
           <Route
             path="/projects/:id"
             element={
