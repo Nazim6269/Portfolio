@@ -70,7 +70,7 @@ const AllProjects = () => {
         </div>
 
         {view === "grid" ? (
-          <div className="lg:columns-3 md:columns-2 columns-1 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
             {projects.map((project, index) => (
               <GlowCard card={project} key={project.id} index={index}>
                 <h3 className="font-semibold text-base text-white">{project.title}</h3>

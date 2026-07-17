@@ -21,7 +21,7 @@ const GlowCard = ({ index, children }) => {
     <div
       ref={(el) => (cardRefs.current[index] = el)}
       onMouseMove={handleMouseMove(index)}
-      className="card card-border rounded-xl p-6 mb-5 break-inside-avoid-column relative select-none"
+      className="card card-border rounded-xl p-6 relative select-none"
     >
       <div className="relative z-10">
         {children}
