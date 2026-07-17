@@ -9,6 +9,14 @@ const ProjectDetail = () => {
   const { config } = useSiteConfig();
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isPrivate, setIsPrivate] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+  }, []);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -19,6 +27,7 @@ const ProjectDetail = () => {
         .single();
 
       if (data) {
+        setIsPrivate(data.is_private ?? false);
         setProject({
           id: data.id,
           title: data.title,
@@ -47,6 +56,20 @@ const ProjectDetail = () => {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center flex-col gap-4">
         <p className="text-gray-400">Project not found</p>
+        <Link
+          to="/"
+          className="text-blue-50 hover:text-white transition-colors text-sm"
+        >
+          &larr; Back to Portfolio
+        </Link>
+      </div>
+    );
+  }
+
+  if (isPrivate && !user) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center flex-col gap-4">
+        <p className="text-gray-400">This project is private</p>
         <Link
           to="/"
           className="text-blue-50 hover:text-white transition-colors text-sm"

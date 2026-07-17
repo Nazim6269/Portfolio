@@ -9,10 +9,19 @@ const Projects = () => {
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const { data } = await supabase
+      let query = supabase
         .from("projects")
         .select("*")
         .order("position", { ascending: true });
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session?.user) {
+        query = query.eq("is_private", false);
+      }
+
+      const { data } = await query;
       if (data && data.length > 0) {
         setProjects(
           data.map((p) => ({
@@ -22,6 +31,7 @@ const Projects = () => {
             technologies: p.technologies,
             demoLink: p.demo_link,
             githubLink: p.github_link,
+            isPrivate: p.is_private ?? false,
           }))
         );
       }
@@ -43,7 +53,14 @@ const Projects = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
           {visible.map((project, index) => (
             <GlowCard card={project} key={project.id} index={index}>
-              <h3 className="font-semibold text-base text-white">{project.title}</h3>
+              <h3 className="font-semibold text-base text-white flex items-center gap-2">
+                {project.title}
+                {project.isPrivate && (
+                  <span className="px-1.5 py-0.5 text-[10px] font-medium rounded bg-yellow-500/15 text-yellow-400 border border-yellow-500/20">
+                    Private
+                  </span>
+                )}
+              </h3>
               <p className="text-gray-400 text-sm mt-2 leading-relaxed line-clamp-3">{project.des}</p>
 
               <div className="flex flex-wrap gap-1.5 mt-4">

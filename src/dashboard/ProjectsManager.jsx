@@ -25,6 +25,7 @@ const emptyForm = {
   github_link: "",
   key_features: "",
   purpose: "",
+  is_private: false,
 };
 
 const SortableItem = ({ project, openEdit, handleDelete }) => {
@@ -66,7 +67,14 @@ const SortableItem = ({ project, openEdit, handleDelete }) => {
           </svg>
         </button>
         <div className="min-w-0">
-          <h3 className="text-white font-semibold">{project.title}</h3>
+          <h3 className="text-white font-semibold flex items-center gap-2">
+            {project.title}
+            {project.is_private && (
+              <span className="px-1.5 py-0.5 text-[10px] font-medium rounded bg-yellow-500/15 text-yellow-400 border border-yellow-500/20">
+                Private
+              </span>
+            )}
+          </h3>
           <p className="text-gray-400 text-sm mt-1 line-clamp-2">
             {project.description}
           </p>
@@ -175,6 +183,7 @@ const ProjectsManager = () => {
       purpose: project.purpose || "",
       demo_link: project.demo_link || "",
       github_link: project.github_link || "",
+      is_private: project.is_private ?? false,
     });
     setEditing(project.id);
     setShowForm(true);
@@ -293,6 +302,33 @@ const ProjectsManager = () => {
                   value={form.github_link}
                   onChange={handleChange}
                 />
+              </div>
+              <div className="flex items-center gap-3 pt-1">
+                <label className="flex items-center gap-2 cursor-pointer select-none">
+                  <div className="relative">
+                    <input
+                      type="checkbox"
+                      name="is_private"
+                      checked={form.is_private}
+                      onChange={(e) =>
+                        setForm({ ...form, is_private: e.target.checked })
+                      }
+                      className="sr-only"
+                    />
+                    <div
+                      className={`w-10 h-5 rounded-full transition-colors ${
+                        form.is_private ? "bg-yellow-500/40" : "bg-white/[0.08]"
+                      }`}
+                    >
+                      <div
+                        className={`w-4 h-4 rounded-full bg-white transition-transform mt-0.5 ${
+                          form.is_private ? "translate-x-5" : "translate-x-0.5"
+                        }`}
+                      />
+                    </div>
+                  </div>
+                  <span className="text-sm text-gray-300">Private project</span>
+                </label>
               </div>
               <div className="flex gap-3 pt-2">
                 <button

@@ -10,6 +10,7 @@ CREATE TABLE projects (
   key_features TEXT,
   purpose TEXT,
   position INT NOT NULL DEFAULT 0,
+  is_private BOOLEAN NOT NULL DEFAULT false,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -52,7 +53,7 @@ ALTER TABLE experience ENABLE ROW LEVEL SECURITY;
 ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
 
 -- 6. Public read access for portfolio sections
-CREATE POLICY "Allow public read projects" ON projects FOR SELECT USING (true);
+CREATE POLICY "Allow public read projects" ON projects FOR SELECT USING (is_private = false OR auth.role() = 'authenticated');
 CREATE POLICY "Allow public read skills" ON skills FOR SELECT USING (true);
 CREATE POLICY "Allow public read experience" ON experience FOR SELECT USING (true);
 CREATE POLICY "Allow public read messages" ON messages FOR SELECT USING (true);
