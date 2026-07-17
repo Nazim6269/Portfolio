@@ -127,14 +127,13 @@ const ProjectsManager = () => {
   }, [fetchProjects]);
 
   const persistOrder = useCallback(async (ordered) => {
-    const updates = ordered.map((p, i) => ({
-      id: p.id,
-      position: i,
-    }));
-    const { error } = await supabase.from("projects").upsert(updates, {
-      onConflict: "id",
-    });
-    if (error) console.error("Failed to persist order:", error);
+    for (let i = 0; i < ordered.length; i++) {
+      const { error } = await supabase
+        .from("projects")
+        .update({ position: i })
+        .eq("id", ordered[i].id);
+      if (error) console.error("Failed to persist order:", error);
+    }
   }, []);
 
   const handleDragEnd = useCallback(
