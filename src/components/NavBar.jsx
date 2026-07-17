@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { navLinks } from "../constants";
 import { useSiteConfig } from "../context/SiteConfigContext";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   const { config } = useSiteConfig();
@@ -31,9 +32,11 @@ const NavBar = () => {
   return (
     <header className={`navbar ${scrolled ? "scrolled" : "not-scrolled"}`}>
       <div className="inner">
-        <p className="text-xl md:text-2xl font-bold text-white tracking-tight">
-          {config?.site_name || "Nazim."}
-        </p>
+        <Link to={'/'}>
+          <p className="text-xl md:text-2xl font-bold text-white tracking-tight">
+            {config?.site_name || "Nazim."}
+          </p>
+        </Link>
 
         <nav className="desktop">
           <ul>
