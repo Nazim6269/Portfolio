@@ -74,7 +74,7 @@ const AllProjects = () => {
             {projects.map((project, index) => (
               <GlowCard card={project} key={project.id} index={index}>
                 <h3 className="font-semibold text-base text-white">{project.title}</h3>
-                <p className="text-gray-400 text-sm mt-2 leading-relaxed">{project.des}</p>
+                <p className="text-gray-400 text-sm mt-2 leading-relaxed line-clamp-3">{project.des}</p>
 
                 <div className="flex flex-wrap gap-1.5 mt-4">
                   {project?.technologies?.map((tech, i) => (
