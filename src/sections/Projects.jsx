@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import GlowCard from "../components/GlowCard";
 import TitleHeader from "../components/TitleHeader";
 import { supabase } from "../supabaseClient";
 
 const Projects = () => {
+  const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
@@ -39,7 +40,7 @@ const Projects = () => {
 
         <div className="lg:columns-3 md:columns-2 columns-1 mt-12">
           {projects.map((project, index) => (
-            <GlowCard card={project} key={project.id} index={index}>
+            <GlowCard card={project} key={project.id} index={index} onClick={() => navigate(`/projects/${project.id}`)}>
               <h3 className="font-semibold text-base text-white">{project.title}</h3>
               <p className="text-gray-400 text-sm mt-2 leading-relaxed">{project.des}</p>
 

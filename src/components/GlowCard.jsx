@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-const GlowCard = ({ index, children }) => {
+const GlowCard = ({ index, children, onClick }) => {
   const cardRefs = useRef([]);
 
   const handleMouseMove = (index) => (e) => {
@@ -21,7 +21,8 @@ const GlowCard = ({ index, children }) => {
     <div
       ref={(el) => (cardRefs.current[index] = el)}
       onMouseMove={handleMouseMove(index)}
-      className="card card-border rounded-xl p-6 mb-5 break-inside-avoid-column relative"
+      onClick={onClick}
+      className={`card card-border rounded-xl p-6 mb-5 break-inside-avoid-column relative ${onClick ? "cursor-pointer" : ""}`}
     >
       <div className="relative z-10">
         {children}
