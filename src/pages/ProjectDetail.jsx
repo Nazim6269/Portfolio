@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
+import { useSiteConfig } from "../context/SiteConfigContext";
 
 const ProjectDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { config } = useSiteConfig();
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -118,7 +120,8 @@ const ProjectDetail = () => {
                 href={project.demoLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex px-6 py-2.5 rounded-lg bg-white text-black text-sm font-medium hover:bg-gray-200 transition-all duration-200"
+                className="inline-flex px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-200 transition-all duration-200"
+                style={{ backgroundColor: config?.accent_color || "#ffffff", color: config?.accent_text_color || "#000000" }}
               >
                 Live Demo
               </a>

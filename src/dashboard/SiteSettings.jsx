@@ -35,6 +35,8 @@ const SiteSettings = () => {
     { label: "Hero Title", name: "hero_title" },
     { label: "Hero Bio", name: "hero_bio", type: "textarea" },
     { label: "Hero Badge", name: "hero_badge" },
+    { label: "Accent Color", name: "accent_color", type: "color" },
+    { label: "Accent Text Color", name: "accent_text_color", type: "color" },
     { label: "Footer Name", name: "footer_name" },
     { label: "Meta Title (browser tab)", name: "meta_title" },
   ];
@@ -55,6 +57,24 @@ const SiteSettings = () => {
                 rows={3}
                 required
               />
+            ) : type === "color" ? (
+              <div className="flex items-center gap-3">
+                <input
+                  type="color"
+                  name={name}
+                  value={form[name] || "#ffffff"}
+                  onChange={handleChange}
+                  className="w-10 h-10 rounded-md cursor-pointer border border-white/[0.08] bg-transparent p-0.5"
+                />
+                <input
+                  type="text"
+                  name={name}
+                  value={form[name] || ""}
+                  onChange={handleChange}
+                  className="flex-1 font-mono text-sm"
+                  placeholder="#ffffff"
+                />
+              </div>
             ) : (
               <input
                 name={name}

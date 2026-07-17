@@ -3,8 +3,10 @@ import { useRef, useState } from "react";
 
 import TitleHeader from "../components/TitleHeader";
 import { supabase } from "../supabaseClient";
+import { useSiteConfig } from "../context/SiteConfigContext";
 
 const Contact = () => {
+  const { config } = useSiteConfig();
   const formRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
@@ -103,7 +105,8 @@ const Contact = () => {
 
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-lg bg-white text-black text-sm font-medium hover:bg-gray-100 active:scale-[0.98] transition-all duration-200 mt-1"
+                  className="w-full py-3 rounded-lg text-sm font-medium hover:bg-gray-100 active:scale-[0.98] transition-all duration-200 mt-1"
+                  style={{ backgroundColor: config?.accent_color || "#ffffff", color: config?.accent_text_color || "#000000" }}
                 >
                   {loading ? "Sending..." : "Send Message"}
                 </button>

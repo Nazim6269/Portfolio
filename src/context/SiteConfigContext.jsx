@@ -8,6 +8,8 @@ const defaults = {
   hero_bio:
     "Specializing in React, Next.js, and Node.js — I build performant web applications with clean architecture and thoughtful user experiences.",
   hero_badge: "Available for opportunities",
+  accent_color: "#ffffff",
+  accent_text_color: "#000000",
   footer_name: "Nazim Uddin",
   meta_title: "Nazim's — Portfolio",
 };

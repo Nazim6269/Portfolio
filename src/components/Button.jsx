@@ -1,4 +1,4 @@
-const Button = ({ text, className, href = "#projects" }) => {
+const Button = ({ text, className, href = "#projects", bgColor, textColor }) => {
   return (
     <a
       href={href}
@@ -12,7 +12,8 @@ const Button = ({ text, className, href = "#projects" }) => {
           window.scrollTo({ top, behavior: "smooth" });
         }
       }}
-      className={`${className ?? ""} inline-flex items-center justify-center rounded-md bg-white text-black text-sm font-medium hover:bg-gray-100 active:scale-[0.98] transition-all duration-200`}
+      className={`${className ?? ""} inline-flex items-center justify-center rounded-md text-sm font-medium hover:bg-gray-100 active:scale-[0.98] transition-all duration-200`}
+      style={{ backgroundColor: bgColor || "#ffffff", color: textColor || "#000000" }}
     >
       {text}
     </a>

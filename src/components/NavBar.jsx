@@ -33,7 +33,7 @@ const NavBar = () => {
     <header className={`navbar ${scrolled ? "scrolled" : "not-scrolled"}`}>
       <div className="inner">
         <Link to={'/'}>
-          <p className="text-xl md:text-2xl font-bold text-white tracking-tight">
+          <p className="text-xl md:text-2xl font-bold tracking-tight" style={{ color: config?.accent_color || '#ffffff' }}>
             {config?.site_name || "Nazim."}
           </p>
         </Link>
@@ -54,7 +54,8 @@ const NavBar = () => {
         <div className="flex items-center gap-3">
           <a
             href="#contact"
-            className="hidden sm:inline-flex px-4 py-1.5 rounded-md bg-white text-black text-xs font-medium hover:bg-gray-200 transition-colors duration-200"
+            className="hidden sm:inline-flex px-4 py-1.5 rounded-md text-xs font-medium hover:bg-gray-200 transition-colors duration-200"
+            style={{ backgroundColor: config?.accent_color || '#ffffff', color: config?.accent_text_color || '#000000' }}
           >
             Contact
           </a>

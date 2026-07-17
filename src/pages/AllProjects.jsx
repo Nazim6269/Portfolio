@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import GlowCard from "../components/GlowCard";
 import { supabase } from "../supabaseClient";
+import { useSiteConfig } from "../context/SiteConfigContext";
 
 const AllProjects = () => {
+  const { config } = useSiteConfig();
   const [projects, setProjects] = useState([]);
   const [view, setView] = useState("grid");
 
@@ -145,7 +147,8 @@ const AllProjects = () => {
                 <div className="flex flex-wrap gap-2 md:gap-3 flex-shrink-0">
                   <Link
                     to={`/projects/${project.id}`}
-                    className="px-4 py-2 rounded-lg bg-white text-black text-xs font-medium hover:bg-gray-200 transition-all duration-200"
+                    className="px-4 py-2 rounded-lg text-xs font-medium hover:bg-gray-200 transition-all duration-200"
+                    style={{ backgroundColor: config?.accent_color || "#ffffff", color: config?.accent_text_color || "#000000" }}
                   >
                     Details
                   </Link>

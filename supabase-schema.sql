@@ -98,6 +98,8 @@ CREATE TABLE site_config (
   hero_title text NOT NULL DEFAULT 'Frontend Engineer',
   hero_bio text NOT NULL DEFAULT 'Specializing in React, Next.js, and Node.js — I build performant web applications with clean architecture and thoughtful user experiences.',
   hero_badge text NOT NULL DEFAULT 'Available for opportunities',
+  accent_color text NOT NULL DEFAULT '#ffffff',
+  accent_text_color text NOT NULL DEFAULT '#000000',
   footer_name text NOT NULL DEFAULT 'Nazim Uddin',
   meta_title text NOT NULL DEFAULT 'Nazim''s — Portfolio',
   created_at timestamptz DEFAULT now(),

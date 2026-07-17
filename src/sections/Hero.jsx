@@ -29,6 +29,8 @@ const Hero = () => {
                 text="View Projects"
                 className="md:w-44 md:h-11 w-36 h-10"
                 href="#projects"
+                bgColor={config?.accent_color}
+                textColor={config?.accent_text_color}
               />
               <a
                 href="#contact"
